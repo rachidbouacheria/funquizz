@@ -1,0 +1,179 @@
+<br/>
+<div class="container">
+      <!-- <div [hidden]="submitted"> -->
+      <h1>New Quizz</h1>
+      <form (ngSubmit)="onSubmit()" #quizzForm="ngForm">
+
+          <div class="form-row">
+              <div class="form-group col-md-9">      
+              </div>
+              <div class="form-group col-md-3">
+                  <button type="submit" class="btn btn-success" [disabled]="!quizzForm.form.valid">Submit</button>        
+                  <button type="button" class="btn btn-default" (click)="newQuizz(); quizzForm.reset()">New Quizz</button>
+              </div>
+          </div>     
+
+          <div class="form-row">
+              <div class="form-group col-md-4">        
+                  <input type="text" class="form-control" id="name"
+                  required
+                  [(ngModel)]="model.name" name="name"
+                  #name="ngModel" placeholder="Quizz Name">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger"> Name is required</div>
+              </div>
+              <div class="form-group col-md-8">
+                    <div class="form-group">
+                      
+                        <input type="text" class="form-control" id="desc"
+                              required
+                              [(ngModel)]="model.description" name="desc"
+                              #desc="ngModel"
+                              placeholder="Quizz Description">
+                        <div [hidden]="desc.valid || desc.pristine"
+                            class="alert alert-danger">
+                          Name is required
+                        </div>
+                    </div>
+              </div>
+              
+          </div>
+
+          </form>
+          <form (ngSubmit)="onSubmit()" #questionForm="ngForm">
+          <div class="form-row">
+
+              <div class="form-group col-md-12">
+                  <label for="newQuestion">Question</label>
+                
+                  <input type="text" class="form-control" id="newQuestion"
+                          required
+                          [(ngModel)]="model.newQuestion.question" name="newQuestion"
+                          #newQuestion="ngModel" placeholder="Question">
+                    <div [hidden]="newQuestion.valid || newQuestion.pristine"
+                        class="alert alert-danger">
+                      Question is required
+                    </div>
+              </div>
+              <div class="form-group col-md-10">
+                  <label for="response0">Response</label>
+                  <input type="text" class="form-control" id="response0"
+                          required
+                          [(ngModel)]="model.newQuestion.responses[0].value" name="response0"
+                          #response0="ngModel" placeholder="Response 1">
+                  <div [hidden]="response0.valid || response0.pristine"
+                        class="alert alert-danger">
+                      Response is required
+                  </div>
+              </div>      
+              <div class="form-group col-md-2">
+                  <label for="inputState">Is Correct</label>
+                  <select name="isCorrect0" id="isCorrect0" class="form-control" [(ngModel)]="model.newQuestion.responses[0].correct">                
+                      <option *ngFor="let aCorrectValue of correctValues"
+                        [value]="aCorrectValue" >{{aCorrectValue}}</select>
+              </div>
+
+              <div class="form-group col-md-10">
+                  <input type="text" class="form-control" id="response1"
+                          required
+                          [(ngModel)]="model.newQuestion.responses[1].value" name="response1"
+                          #response1="ngModel" placeholder="Response 2">
+                  <div [hidden]="response1.valid || response1.pristine"
+                        class="alert alert-danger">
+                      Response is required
+                  </div>
+                </div>      
+                <div class="form-group col-md-2">
+                    <select name="isCorrect1" id="isCorrect1" class="form-control" [(ngModel)]="model.newQuestion.responses[1].correct">                
+                      <option *ngFor="let aCorrectValue of correctValues"
+                        [value]="aCorrectValue" > 
+                        {{aCorrectValue}}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" id="response2"
+                            required
+                            [(ngModel)]="model.newQuestion.responses[2].value" name="response2"
+                            #response2="ngModel" placeholder="Response 3">
+                    <div [hidden]="response2.valid || response2.pristine"
+                          class="alert alert-danger">
+                        Response is required
+                    </div>
+                  </div>      
+                  <div class="form-group col-md-2">
+                      <select name="isCorrect2" id="isCorrect2" class="form-control" [(ngModel)]="model.newQuestion.responses[2].correct">                
+                        <option *ngFor="let aCorrectValue of correctValues"
+                          [value]="aCorrectValue" > 
+                          {{aCorrectValue}}
+                      </select>
+                  </div>
+
+                  <div class="form-group col-md-10">
+                      <input type="text" class="form-control" id="response3"
+                              required
+                              [(ngModel)]="model.newQuestion.responses[3].value" name="response3"
+                              #response3="ngModel" placeholder="Response 4">
+                      <div [hidden]="response3.valid || response3.pristine"
+                            class="alert alert-danger">
+                          Response is required
+                      </div>
+                    </div>      
+                    <div class="form-group col-md-2">
+                        <select name="isCorrect3" id="isCorrect3" class="form-control" [(ngModel)]="model.newQuestion.responses[3].correct">                
+                          <option *ngFor="let aCorrectValue of correctValues"
+                            [value]="aCorrectValue" > 
+                            {{aCorrectValue}}
+                        </select>
+                    </div>
+
+              <div class="form-group col-md-3">
+                  <button type="submit" 
+                  (click)="addQuestion();questionForm.reset();"
+                  
+                  class="btn btn-primary" [disabled]="!questionForm.form.valid">Add Question</button>  
+              </div>
+              <div class="form-group col-md-9"></div> 
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-12">
+
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Question</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let question of model.questions; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{question.question}}<ol>
+                            <li *ngFor="let response of question.responses">{{response.value}} <span *ngIf="response.correct ==='true'" [ngClass]="{'label label-success': response.correct ==='true'}">Correct</span></li>
+                          </ol></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+        </form>
+
+       
+  <!-- </div> -->
+
+
+  
+  <!-- <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Name</div>
+      <div class="col-xs-9  pull-left">{{ model.name }}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3">Description</div>
+        <div class="col-xs-9  pull-left">{{ model.description }}</div>
+      </div>
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div> -->
+</div>
