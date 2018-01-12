@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 exports.push([module.i, "@import url(https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css);", ""]);
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n/* Application-wide Styles */\nh1 {\n    color: #369;\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 250%;\n  }\n  h2, h3 {\n    color: #444;\n    font-family: Arial, Helvetica, sans-serif;\n    font-weight: lighter;\n  }\n  body {\n    margin: 2em;\n  }\n  body, input[text], button {\n    color: #888;\n    font-family: Cambria, Georgia;\n  }\n  /* everywhere else */\n  * {\n    font-family: Arial, Helvetica, sans-serif;\n  }", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n/* Application-wide Styles */\nh1 {\n    color: #369;\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 250%;\n  }\n  h2, h3 {\n    color: #444;\n    font-family: Arial, Helvetica, sans-serif;\n    font-weight: lighter;\n  }\n  body {\n    margin: 2em;\n  }\n  body, input[text], button {\n    color: #888;\n    font-family: Cambria, Georgia;\n  }\n  /* everywhere else */\n  * {\n    font-family: Arial, Helvetica, sans-serif;\n  }\n  \n  .intro { \n    width: 100%;\n  }\n  .table-left { \n   \n    border-bottom: 1px solid #ddd;\n  }\n  #small{\n  \tbackground-color: #f2f2f2;\n  }", ""]);
 
 // exports
 
