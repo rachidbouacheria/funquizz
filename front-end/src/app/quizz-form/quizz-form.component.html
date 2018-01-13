@@ -8,8 +8,8 @@
               <div class="form-group col-md-9">      
               </div>
               <div class="form-group col-md-3">
-                  <button type="submit" class="btn btn-success" [disabled]="!quizzForm.form.valid">Submit</button>        
-                  <button type="button" class="btn btn-default" (click)="newQuizz(); quizzForm.reset()">New Quizz</button>
+                  <button type="submit" class="btn btn-success" (click)="addQuizz()" [disabled]="!quizzForm.form.valid">Save Quizz</button>        
+<!--                   <button type="button" class="btn btn-default" (click)="newQuizz(); quizzForm.reset()">New Quizz</button> -->
               </div>
           </div>     
 

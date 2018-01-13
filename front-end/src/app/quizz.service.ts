@@ -19,6 +19,8 @@ const httpOptions = {
 export class QuizzService {
         
   private showUrl = '/quizz';
+    
+    
   mockQuizz = new MockQuizz();
   constructor( private http: HttpClient) { }
     
@@ -28,10 +30,14 @@ export class QuizzService {
         return this.mockQuizz.getMockNewQuestion();
     }
     
-     getHeroes (): Observable<Quizz[]> {
-        return this.http.get<Quizz[]>(this.showUrl)
-          ;
-      }
+    getHeroes (): Observable<Quizz[]> {
+        return this.http.get<Quizz[]>(this.showUrl);
+    }
+        
+    addQuizz (quizz: Quizz): Observable<Quizz> {
+      return this.http.post<Quizz>(this.showUrl, quizz, httpOptions);
+      
+    }
     
     getMockNewQuestion1(): Observable<QuizzQuestion> {
       return of(this.mockQuizz.getMockNewQuestion());

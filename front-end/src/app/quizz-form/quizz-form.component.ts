@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 import {QuizzResponse} from '../quizz-response';
 import {QuizzQuestion} from '../quizz-question'
@@ -20,12 +21,19 @@ export class QuizzFormComponent implements OnInit {
 
     correctValues: string[] = ['false','true']
 
-    constructor(private quizzService: QuizzService) {
+    constructor(private router: Router, private quizzService: QuizzService) {
         
     }
 
     onSubmit() { this.submitted = true; }
 
+    addQuizz () {
+     this.quizzService.addQuizz(this.model).subscribe(savedQuizz => {
+      this.router.navigate(['/dashboard']);
+    });
+        
+      
+    }
     addQuestion(questionForm) {
         
         let c1 = this.newQuestion.responses[0].correct;
@@ -64,11 +72,11 @@ export class QuizzFormComponent implements OnInit {
         questionForm.reset();
         this.resetNewQuestion();
         
-        this.quizzService.getHeroes().subscribe(newQuizz => {
-            this.model = newQuizz;
-            console.log("======== http model =========");
-            console.log(newQuizz);
-        });
+//        this.quizzService.getHeroes().subscribe(newQuizz => {
+//            this.model = newQuizz;
+//            console.log("======== http model =========");
+//            console.log(newQuizz);
+//        });
         
        
     }
