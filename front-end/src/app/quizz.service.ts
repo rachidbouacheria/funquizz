@@ -18,7 +18,7 @@ const httpOptions = {
 @Injectable()
 export class QuizzService {
         
-  private showUrl = '/quizz';
+  private quizzUrl = '/quizz';
     
     
   mockQuizz = new MockQuizz();
@@ -31,12 +31,22 @@ export class QuizzService {
     }
     
     getHeroes (): Observable<Quizz[]> {
-        return this.http.get<Quizz[]>(this.showUrl);
+        return this.http.get<Quizz[]>(this.quizzUrl);
     }
         
     addQuizz (quizz: Quizz): Observable<Quizz> {
-      return this.http.post<Quizz>(this.showUrl, quizz, httpOptions);
-      
+      return this.http.post<Quizz>(this.quizzUrl, quizz, httpOptions);
+    }
+    
+    deleteQuizz (quizzId): Observable<Quizz> {
+      alert('deleting quizz');
+      var delete_url = "/quizz/"+quizzId;
+      alert('deleting quizz url ' + delete_url);
+      return this.http.delete<Quizz>(delete_url, httpOptions);
+    }
+    
+    removeQuizz(name){
+      alert('Removing quizz ubs= service '+ name);
     }
     
     getMockNewQuestion1(): Observable<QuizzQuestion> {
@@ -51,6 +61,8 @@ export class QuizzService {
         return this.mockQuizz.getMockQuizz();
     }
     
+    
+
     /**
    * Handle Http operation that failed.
    * Let the app continue.

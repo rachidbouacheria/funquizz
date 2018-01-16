@@ -1,10 +1,16 @@
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <div class="container">
       <!-- <div [hidden]="submitted"> -->
       <h1>New Quizz</h1>
       <form (ngSubmit)="onSubmit()" #quizzForm="ngForm">
 
-          <div class="form-row">
+          <div class="row">
               <div class="form-group col-md-9">      
               </div>
               <div class="form-group col-md-3">
@@ -13,7 +19,7 @@
               </div>
           </div>     
 
-          <div class="form-row">
+          <div class="row">
               <div class="form-group col-md-4">        
                   <input type="text" class="form-control" id="name"
                   required
@@ -40,7 +46,7 @@
 
           </form>
           <form (ngSubmit)="onSubmit()" #questionForm="ngForm">
-          <div class="form-row">
+          <div class="row">
 
               <div class="form-group col-md-12">
                   <label for="newQuestion">Question</label>
@@ -147,9 +153,6 @@
                       <tr *ngFor="let question of model.questions; let i = index">
                         <th scope="row">{{i+1}}</th>
                         <td>
-<!--                         {{question.question}}<ol> -->
-<!--                             <li *ngFor="let response of question.responses">{{response.value}} <span *ngIf="response.correct ==='true'" [ngClass]="{'label label-success': response.correct ==='true'}">Correct</span></li> -->
-<!--                           </ol> -->
                         		<table class="intro" >
                         			<tr>
                         				<td colspan="3">{{question.question}}</td>
@@ -161,12 +164,14 @@
                         				
                         			</tr>
                         		</table>
-                        
                         </td>
                         <td>
-                          	<button type="button" class="btn btn-default btn-sm" (click)="removeQuestion(i);">
-					          <span class="glyphicon glyphicon-remove"></span> Remove 
-					        </button>
+                        		
+                        		<a data-toggle="modal" href="#" (click)="removeQuestion(i);" onclick="return false;"><i class="material-icons">delete</i> </a>
+                        			
+<!--                           	<button type="button" class="btn btn-default btn-sm" (click)="removeQuestion(i);"> -->
+<!-- 					          <i class="material-icons" (click)="removeQuestion(i);">delete</i> -->
+<!-- 					        </button> -->
                         </td>
                       </tr>
                     </tbody>

@@ -1,3 +1,70 @@
-<p>
-  dashboard works!
-</p>
+<div style="height: 100px;"></div>
+<table class="table table-hover" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let aQuizz of model; let i = index">
+      <th scope="row">{{i+1}}    
+      <td><a data-toggle="modal" href="#" (click)="open(content, aQuizz);" onclick="return false;">{{aQuizz.name}} </a></td>
+      <td>{{aQuizz.description}}</td>
+      <td><button type="button" class="btn btn-primary btn-sm" (click)="deleteQuizz(aQuizz.id);">
+	         <span class="glyphicon glyphicon-remove"></span> Remove 
+	       </button>
+       </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <app-quizz-modal></app-quizz-modal> -->
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title {{modalQuizz.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table" >
+                    <thead>
+<!--                       <tr> -->
+<!--                         <th scope="col">#</th> -->
+<!--                         <th scope="col">Question</th> -->
+<!--                       </tr> -->
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let question of modalQuizz.questions; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>
+                        		<table class="intro" >
+                        			<tr>
+                        				<td colspan="3">{{question.question}}</td>
+                        			</tr>
+                        			<tr *ngFor="let response of question.responses; let i = index">
+                        				<td width="2%">{{i+1}}</td> 
+                        				<td width="5%"><span *ngIf="response.correct ==='true'" [ngClass]="{'glyphicon glyphicon-asterisk': response.correct ==='true'}"></span></td>
+                        				<td width="93%">{{response.value}}</td> 
+                        				
+                        			</tr>
+                        		</table>
+                        </td>
+                        <td>
+                        		
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+

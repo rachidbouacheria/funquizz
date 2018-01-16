@@ -1,9 +1,19 @@
 package com.bouacheria.funquizz.infrastructure.http;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bouacheria.funquizz.domain.model.Quizz;
+import com.bouacheria.funquizz.infrastructure.database.mongo.model.QuizzView;
+import com.bouacheria.funquizz.infrastructure.services.QuizzApi;
+
 
 @RestController
 public class QuizzController {
@@ -38,7 +48,12 @@ public class QuizzController {
 			"   ]\n" + 
 			"}";
 	public static final String JSON_QUIZZ_ARRAY = "["+ JSON_QUIZZ + "]";
-	@RequestMapping(value = "/quizz", method = RequestMethod.POST)
+	
+	
+	@Autowired
+	private QuizzApi quizzApi;
+	
+	@RequestMapping(value = "/quizz2", method = RequestMethod.POST)
 	public String saveQuizz() {
 		return "Saving Quizz";
 	}
@@ -46,11 +61,20 @@ public class QuizzController {
 	
 	@RequestMapping(value = "/quizz", method = RequestMethod.GET)
 	@ResponseBody
-	public String getQuizz1() {
-		
-		System.out.println(JSON_QUIZZ_ARRAY);
-		return JSON_QUIZZ;
-		//return "getting Quizz";
+	public List<QuizzView> getAllQuizzes() {
+		return quizzApi.findAllQuizzes();
 	}
-
+	
+	@RequestMapping(value = "/quizz/{id}", method = RequestMethod.DELETE )
+	@ResponseBody
+	public void deleteQuizz(@PathVariable long id) {
+		 quizzApi.deleteQuizze(id);
+	}
+	
+	@RequestMapping(value = "/quizz", method = RequestMethod.POST)
+	@ResponseBody
+	public void saveQuizz(@RequestBody Quizz quizz) {
+		
+		quizzApi.saveQuizz(quizz);	
+	}
 }
