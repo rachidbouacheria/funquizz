@@ -25,6 +25,12 @@ export class QuizzService {
   constructor( private http: HttpClient) { }
     
  
+     getEmptyQuizz() {
+
+        let quizz = new Quizz(0, '', '',[]);
+
+        return quizz;
+    }
     
     getMockNewQuestion() {
         return this.mockQuizz.getMockNewQuestion();
@@ -38,12 +44,31 @@ export class QuizzService {
       return this.http.post<Quizz>(this.quizzUrl, quizz, httpOptions);
     }
     
-    deleteQuizz (quizzId): Observable<Quizz> {
-      alert('deleting quizz');
+    addQuestion(quizz: Quizz, aNewQuestion: QuizzQuestion){
+          let addedNewQuestion  = JSON.parse(JSON.stringify(aNewQuestion ));
+          quizz.questions.push(addedNewQuestion);
+     }
+    
+    removeQuestion(quizz: Quizz, questionIndex){
+       quizz.questions.splice(questionIndex, 1);
+    }
+    
+    updateQuizz (quizz: Quizz): Observable<Quizz> {
+      return this.http.put<Quizz>(this.quizzUrl, quizz, httpOptions);
+    }
+    
+    deleteQuizz (quizzId): Observable<Quizz> {      
       var delete_url = "/quizz/"+quizzId;
-      alert('deleting quizz url ' + delete_url);
+   
       return this.http.delete<Quizz>(delete_url, httpOptions);
     }
+       
+        
+     selectQuizz (quizzId): Observable<Quizz> {    
+      var select_url = "/quizz/"+quizzId;
+      return this.http.get<Quizz>(select_url, httpOptions);
+    }
+        
     
     removeQuizz(name){
       alert('Removing quizz ubs= service '+ name);
@@ -61,6 +86,35 @@ export class QuizzService {
         return this.mockQuizz.getMockQuizz();
     }
     
+    
+    validateQuizzQuestion(aNewQuestion: QuizzQuestion){
+        
+        let c1 = aNewQuestion.responses[0].correct;
+        let c2 = aNewQuestion.responses[1].correct;
+        let c3 = aNewQuestion.responses[2].correct;
+        let c4 = aNewQuestion.responses[3].correct;
+ 
+          
+        if(c1==c2 && c3==c4 && c1==c3){
+            if (c1 == 'false'){
+               return 'At least one response must be correct'; 
+            }else{
+                 return'Responses cannot all be correct'; 
+            }
+        }
+        let numberOfCorrect = 0;
+        if(c1=='true') numberOfCorrect ++
+        
+        if(c2=='true') numberOfCorrect ++
+        if(c3=='true') numberOfCorrect ++
+        if(c4=='true') numberOfCorrect ++
+        
+        if(numberOfCorrect>1){
+             return 'You can only have one correct response. You have:' + numberOfCorrect;
+            
+        }
+        return null;
+    }
     
 
     /**

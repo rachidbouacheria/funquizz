@@ -3,6 +3,7 @@ package com.bouacheria.funquizz.infrastructure.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class QuizzApiImpl implements QuizzApi{
 	
 	@Autowired
 	private SequenceService sequenceService;
+	
+	@Autowired
+	private MongoTemplate mongo;
 
 	@Override
 	public void saveQuizz(Quizz quizz) {
@@ -36,7 +40,21 @@ public class QuizzApiImpl implements QuizzApi{
 
 	@Override
 	public void deleteQuizze(long quizzId) {
-		repo.delete(quizzId);;
+		repo.delete(quizzId);
+	}
+
+	@Override
+	public QuizzView findQuizzById(long quizzId) {
+		return repo.findOne(quizzId);
+		
+	}
+
+	@Override
+	public void updateQuizz(Quizz quizz) {
+		final String user = SecurityContextHolder.getContext().getAuthentication().getName();	
+		QuizzView quizzView = new QuizzView(quizz.getId(), quizz,user);
+		repo.save(quizzView);
+
 	}
 
 }

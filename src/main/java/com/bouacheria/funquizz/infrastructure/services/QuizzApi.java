@@ -10,4 +10,6 @@ public interface QuizzApi {
 	void saveQuizz(Quizz quizz);
 	List<QuizzView> findAllQuizzes();
 	void deleteQuizze(long quizzId);
+	QuizzView findQuizzById(long quizzId);
+	void updateQuizz(Quizz quizz);
 }

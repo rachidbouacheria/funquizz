@@ -1,24 +1,24 @@
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+<div style="height: 50px;"></div>
 <div class="container">
       <!-- <div [hidden]="submitted"> -->
-      <h1>New Quizz</h1>
+<!--       <h1>New Quizz</h1> -->
+      
+      
+
+	<p *ngIf="errorMsg!=null" >
+	  <ngb-alert [dismissible]="false" type="danger">{{errorMsg}}</ngb-alert>
+	</p>
+
+      
       <form (ngSubmit)="onSubmit()" #quizzForm="ngForm">
 
           <div class="row">
               <div class="form-group col-md-9">      
               </div>
               <div class="form-group col-md-3">
-                  <button type="submit" class="btn btn-success" (click)="addQuizz()" [disabled]="!quizzForm.form.valid">Save Quizz</button>        
-<!--                   <button type="button" class="btn btn-default" (click)="newQuizz(); quizzForm.reset()">New Quizz</button> -->
+                  <button type="submit" class="btn btn-success" (click)="addQuizz()" [disabled]="!quizzForm.form.valid">Save Quizz</button>       
               </div>
           </div>     
-
           <div class="row">
               <div class="form-group col-md-4">        
                   <input type="text" class="form-control" id="name"
@@ -142,37 +142,40 @@
           <div class="form-row">
               <div class="form-group col-md-12">
 
-                <table class="table" >
+                <table class ="intro" >
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Question</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let question of model.questions; let i = index">
-                        <th scope="row">{{i+1}}</th>
+                        <th scope="row"></th>
                         <td>
-                        		<table class="intro" >
+                        		<table class="table intro" >
                         			<tr>
-                        				<td colspan="3">{{question.question}}</td>
+                        				
+                        				<td colspan="3">{{i+1}}) {{question.question}}</td>
+                        				<td width="2%">
+			                        		<a data-toggle="modal" href="#" (click)="removeQuestion(i);" onclick="return false;"><i class="material-icons">delete</i> </a>
+			                        </td>
+                        				
                         			</tr>
                         			<tr *ngFor="let response of question.responses; let i = index">
+                        				
+                        				
+                        				<td width="5%">
+                        				  <i *ngIf="response.correct ==='true'" [ngClass]="{'material-icons': response.correct ==='true'}">correct</i>                        				
+                        				</td>
                         				<td width="2%">{{i+1}}</td> 
-                        				<td width="5%"><span *ngIf="response.correct ==='true'" [ngClass]="{'glyphicon glyphicon-asterisk': response.correct ==='true'}"></span></td>
-                        				<td width="93%">{{response.value}}</td> 
+                        				
+                        				<td width="82%">{{response.value}}</td> 
                         				
                         			</tr>
                         		</table>
                         </td>
-                        <td>
-                        		
-                        		<a data-toggle="modal" href="#" (click)="removeQuestion(i);" onclick="return false;"><i class="material-icons">delete</i> </a>
-                        			
-<!--                           	<button type="button" class="btn btn-default btn-sm" (click)="removeQuestion(i);"> -->
-<!-- 					          <i class="material-icons" (click)="removeQuestion(i);">delete</i> -->
-<!-- 					        </button> -->
-                        </td>
+                        
                       </tr>
                     </tbody>
                   </table>

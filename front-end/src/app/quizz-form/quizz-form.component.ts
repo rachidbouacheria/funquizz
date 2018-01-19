@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
+
 
 import {QuizzResponse} from '../quizz-response';
 import {QuizzQuestion} from '../quizz-question'
@@ -14,75 +15,49 @@ import { QuizzService } from '../quizz.service';
 })
 export class QuizzFormComponent implements OnInit {
 
+    isUpdate    = false;
     submitted   = false;
     newQuestion = null;
     model       = null;
-    httpModel = null;
+    httpModel   = null;
+    errorMsg    = null;
 
     correctValues: string[] = ['false','true']
 
-    constructor(private router: Router, private quizzService: QuizzService) {
-        
+    constructor(private router: Router, 
+                private route: ActivatedRoute,
+                private quizzService: QuizzService) {
     }
 
     onSubmit() { this.submitted = true; }
 
     addQuizz () {
-     this.quizzService.addQuizz(this.model).subscribe(savedQuizz => {
-      this.router.navigate(['/dashboard']);
-    });
-        
-      
+     
+     if(this.isUpdate){
+         this.quizzService.updateQuizz(this.model).subscribe(savedQuizz => {
+            this.router.navigate(['/dashboard']);
+         });
+     }else{
+         this.quizzService.addQuizz(this.model).subscribe(savedQuizz => {
+            this.router.navigate(['/dashboard']);
+         });
+     }
     }
     addQuestion(questionForm) {
         
-        let c1 = this.newQuestion.responses[0].correct;
-        let c2 = this.newQuestion.responses[1].correct;
-        let c3 = this.newQuestion.responses[2].correct;
-        let c4 = this.newQuestion.responses[3].correct;
- 
-          
-        if(c1==c2 && c3==c4 && c1==c3){
-            if (c1 == 'false'){
-               alert ('At least one response must be correct'); 
-            }else{
-                 alert ('responses cannot all be correct'); 
-            }
+        this.errorMsg = this.quizzService.validateQuizzQuestion(this.newQuestion);
+        if(this.errorMsg !=null){
             return;
         }
-        let numberOfCorrect = 0;
-        if(c1=='true') numberOfCorrect ++
         
-        if(c2=='true') numberOfCorrect ++
-        if(c3=='true') numberOfCorrect ++
-        if(c4=='true') numberOfCorrect ++
-        
-        if(numberOfCorrect>1){
-             alert('You can only have one correct response. You have: 333' + numberOfCorrect);
-            return;
-        }
-                
-        this.model.addQuestion(this.newQuestion);
-//         var myJSON = JSON.stringify(this.model);
-//        console.log("============================");
-//        console.log(myJSON);
-//        console.log("============================");
-        
+        this.quizzService.addQuestion(this.model, this.newQuestion);
         this.submitted   = false;
         questionForm.reset();
         this.resetNewQuestion();
-        
-//        this.quizzService.getHeroes().subscribe(newQuizz => {
-//            this.model = newQuizz;
-//            console.log("======== http model =========");
-//            console.log(newQuizz);
-//        });
-        
-       
     }
     
     removeQuestion(questionIndex){
-        this.model.removeQuestion(questionIndex);
+        this.quizzService.removeQuestion(this.model,questionIndex);
     }
     
     resetNewQuestion(){
@@ -90,8 +65,19 @@ export class QuizzFormComponent implements OnInit {
     }
     
     ngOnInit() {
-        this.quizzService.getMockNewQuestion1().subscribe(newQuestion => this.newQuestion = newQuestion);
-        this.model        = this.quizzService.getMockQuizz();
+       this.newQuestion =   this.quizzService.getNewQuestion();
+       this.route.params.subscribe( params => {
+            var myQuizzId = params['id'];
+            if(myQuizzId){
+                this.isUpdate = true;
+                this.quizzService.selectQuizz(myQuizzId).subscribe(res => { 
+                 this.model =res;
+                });
+            }else{
+              this.isUpdate = false;
+              this.model = this.quizzService.getEmptyQuizz();
+            }
+       });
     }
 
 }

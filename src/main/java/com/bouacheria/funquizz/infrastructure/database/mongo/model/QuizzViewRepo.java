@@ -5,5 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuizzViewRepo extends MongoRepository<QuizzView, Long> {
+	
+	//QuizzView findById(long quizzId);
 
 }

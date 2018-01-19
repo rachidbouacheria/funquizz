@@ -11,10 +11,10 @@ export class Quizz {
    
      }
 
-     addQuestion(aNewQuestion: QuizzQuestion){
-          let addedNewQuestion  = JSON.parse(JSON.stringify(aNewQuestion ));
-          this.questions.push(addedNewQuestion);
-     }
+//     addQuestion(aNewQuestion: QuizzQuestion){
+//          let addedNewQuestion  = JSON.parse(JSON.stringify(aNewQuestion ));
+//          this.questions.push(addedNewQuestion);
+//     }
     
     removeQuestion(questionIndex){
        this.questions.splice(questionIndex, 1);

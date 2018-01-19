@@ -53,16 +53,22 @@ public class QuizzController {
 	@Autowired
 	private QuizzApi quizzApi;
 	
-	@RequestMapping(value = "/quizz2", method = RequestMethod.POST)
-	public String saveQuizz() {
-		return "Saving Quizz";
-	}
-	
-	
+
 	@RequestMapping(value = "/quizz", method = RequestMethod.GET)
 	@ResponseBody
 	public List<QuizzView> getAllQuizzes() {
 		return quizzApi.findAllQuizzes();
+	}
+	
+	
+	@RequestMapping(value = "/quizz/{id}", method = RequestMethod.GET )
+	@ResponseBody
+	public QuizzView findQuizzById(@PathVariable long id) {
+		QuizzView quizz= quizzApi.findQuizzById(id);
+		if(quizz!=null) {
+			System.out.println("found quizz "+ quizz.getId() +  " name: "+ quizz.getName());
+		}
+		return quizz;
 	}
 	
 	@RequestMapping(value = "/quizz/{id}", method = RequestMethod.DELETE )
@@ -76,5 +82,12 @@ public class QuizzController {
 	public void saveQuizz(@RequestBody Quizz quizz) {
 		
 		quizzApi.saveQuizz(quizz);	
+	}
+	
+	@RequestMapping(value = "/quizz", method = RequestMethod.PUT)
+	@ResponseBody
+	public void updateQuizz(@RequestBody Quizz quizz) {
+		
+		quizzApi.updateQuizz(quizz);	
 	}
 }
